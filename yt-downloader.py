@@ -6,6 +6,7 @@ import os
 import __main__
 
 
+
 def existe_carpeta_descarga(ruta):
     if os.path.exists('.\\Descargas') == False:
         os.mkdir('.\\Descargas')
@@ -40,6 +41,9 @@ def main():
             print('Su audio fue descargado con exito y se encuentra en la carpeta descargas :)')
         except:
             print('Ocurrio un error. Vuelva a intentar...')
+        
+        print("*"*50)
+        print("Descarga finalizada...")
 
         
     elif opcion == 2:
@@ -50,6 +54,9 @@ def main():
             video.download(output_path='Descargas')
         except:
             print('No se pudo descargar el video. Intente nuevamente')
+
+        print("*"*50)
+        print("Descarga finalizada...")
     else:
         print('Tener en cuenta que la playlist debe estar publica para poder descargarse')
         url = input('Ingrese el link de la playlist de musica para descargar: ')
@@ -64,6 +71,9 @@ def main():
                 print('No se pudo descargar la cancion con el link: ',url_videos[i])
                 print('Pruebe descargando dicha cancion con la opcion 1 del programa')
 
+
+        print("*"*50)
+        print("Descarga finalizada...")
 
 if __name__ == '__main__':
     main()
