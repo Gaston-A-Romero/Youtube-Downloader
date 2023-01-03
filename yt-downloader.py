@@ -5,16 +5,11 @@ from pytube import Playlist
 import os
 import __main__
 
-
-
 def existe_carpeta_descarga(ruta):
     if os.path.exists('.\\Descargas') == False:
         os.mkdir('.\\Descargas')
         print('Se creo una carpeta para guardar todas sus descargas en la ruta: ', os.path.abspath('.\\Descargas'))
-    else:
-        pass
-
-
+    
 def main():   
     archivo_path = os.path.abspath(__main__.__file__)
     existe_carpeta_descarga(archivo_path)
@@ -57,7 +52,8 @@ def main():
 
         print("*"*50)
         print("Descarga finalizada...")
-    else:
+
+    elif opcion == 3:
         print('Tener en cuenta que la playlist debe estar publica para poder descargarse')
         url = input('Ingrese el link de la playlist de musica para descargar: ')
         yt = Playlist(url)
