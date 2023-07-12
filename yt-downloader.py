@@ -20,72 +20,80 @@ def main():
 
     #Menu de opciones
     opcion = -1
-    while not 1 <= opcion <= 3:
+    while True:
 
         print('*'*50)
         print('Menu')
         print('1-Descargar audio de un video')
         print('2-Descargar video')
         print('3-Descargar todos los audios de una playlist')
+        print('4-Salir del programa')
         print('*'*50)
 
         opcion = int(input('Ingrese el numero de la tarea a realizar: '))
 
-    #Opcion para descargar audio de un video individual
-    if opcion == 1:
-        url = input('Ingrese link del video: ')
-        #Creando el objeto de la libreria que nos trae los datos sobre el video
-        yt = YouTube(url,on_progress_callback=on_progress)
-        audio = yt.streams.get_audio_only()
-        audio_size_archivo = audio.filesize_mb
-        try:          
-            audio.download(output_path='Descargas')             
-            print('Su audio fue descargado con exito y se encuentra en la carpeta descargas :)')
-        except:
-            print('Ocurrio un error. Vuelva a intentar...')
-        
-        print("*"*50)
-        
-
-    #Opcion para descargar un video    
-    elif opcion == 2:
-        url = input('Ingrese link del video: ')
-        yt = YouTube(url)
-        video = yt.streams.get_highest_resolution()
-        try:
-            video.download(output_path='Descargas')
-        except:
-            print('No se pudo descargar el video. Intente nuevamente')
-
-        print("*"*50)
-        print("Descarga finalizada...")
-
-    #Opcion para descargar una lista publica de canciones
-    elif opcion == 3:
-        print('Tener en cuenta que la playlist debe estar publica para poder descargarse'.upper())
-        url = input('Ingrese el link de la playlist de musica para descargar: ')
-        
-        yt = Playlist(url)
-        print(yt.length)
-        url_videos = yt.video_urls
-        for i in tqdm(range(yt.length),unit='canciones',desc='Descargando',unit_scale=True,write_bytes=False):
-            try:                
-                yt = YouTube(url_videos[i])
-                cancion = yt.streams.get_audio_only()
-                cancion.download(output_path='Descargas')
+        #Opcion para descargar audio de un video individual
+        if opcion == 1:
+            url = input('Ingrese link del video: ')
+            #Creando el objeto de la libreria que nos trae los datos sobre el video
+            yt = YouTube(url,on_progress_callback=on_progress)
+            audio = yt.streams.get_audio_only()
+            audio_size_archivo = audio.filesize_mb
+            try:          
+                audio.download(output_path='Descargas')             
+                print('Su audio fue descargado con exito y se encuentra en la carpeta descargas :)')
             except:
-                print('No se pudo descargar la cancion con el link: ',url_videos[i])
-                canciones_no_descargadas.append(url_videos[i])
-                print('Pruebe descargando dicha cancion con la opcion 1 del programa')
+                print('Ocurrio un error. Vuelva a intentar...')
+            
+            print("*"*50)
+            
 
-        #Devuelvo las canciones que no se pudieron descargar      
-        if len(canciones_no_descargadas) > 0:
-                    print('Las siguientes canciones no fueron descargadas')
-                    for i in canciones_no_descargadas:
-                        print(canciones_no_descargadas[i])
+        #Opcion para descargar un video    
+        elif opcion == 2:
+            url = input('Ingrese link del video: ')
+            yt = YouTube(url)
+            video = yt.streams.get_highest_resolution()
+            try:
+                print("Descargando... Por favor espere")
+                video.download(output_path='Descargas')
+            except:
+                print('No se pudo descargar el video. Intente nuevamente')
 
-        print("*"*50)
-        print("Descarga finalizada...")
+            print("*"*50)
+            print("Descarga finalizada...")
+
+        #Opcion para descargar una lista publica de canciones
+        elif opcion == 3:
+            print('Tener en cuenta que la playlist debe estar publica para poder descargarse'.upper())
+            url = input('Ingrese el link de la playlist de musica para descargar: ')
+            
+            yt = Playlist(url)
+            print(yt.length)
+            url_videos = yt.video_urls
+            for i in tqdm(range(yt.length),unit='canciones',desc='Descargando',unit_scale=True,write_bytes=False):
+                try:                
+                    yt = YouTube(url_videos[i])
+                    cancion = yt.streams.get_audio_only()
+                    cancion.download(output_path='Descargas')
+                except:
+                    print('No se pudo descargar la cancion con el link: ',url_videos[i])
+                    canciones_no_descargadas.append(url_videos[i])
+                    print('Pruebe descargando dicha cancion con la opcion 1 del programa')
+
+            #Devuelvo las canciones que no se pudieron descargar      
+            if len(canciones_no_descargadas) > 0:
+                        print('Las siguientes canciones no fueron descargadas')
+                        for cancion in canciones_no_descargadas:
+                            print(canciones_no_descargadas[cancion])
+
+            print("*"*50)
+            print("Descarga finalizada...")
+        
+        elif opcion == 4:
+            break
+
+        else:
+            print('La opcion ingresada no es valida...')
 
 if __name__ == '__main__':
     main()
